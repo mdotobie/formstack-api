@@ -82,7 +82,6 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetFormDetailsBadFormId() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
-        $wrapper->finalized = false;
         $response = $wrapper->getFormDetails(1234); // Form that should not exist
         $this->assertEquals($response->status, 'error');
         $this->assertEquals($response->error, 'The form was not found');
