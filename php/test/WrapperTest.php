@@ -12,9 +12,13 @@ require_once dirname(__FILE__) . '/../FormstackApi.php';
  * you can successfully run these tests for yourself.
  */
 
+/**
+ * @coversDefaultClass \FormstackApi
+ */
 class WrapperTest extends PHPUnit_Framework_TestCase {
 
     /**
+     * @covers                      ::request
      * @expectedException           Exception
      * @expectedExceptionMessage    You must include an enpoint to request
      */
@@ -24,6 +28,7 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers                      ::request
      * @expectedException           Exception
      * @expectedExceptionMessage    Your requests must be performed with one of the following
      * verbs: GET, PUT, POST, DELETE.
@@ -34,6 +39,7 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers                      ::request
      * @expectedException           Exception
      * @expectedExceptionMessage    Request failed. Exception code contains HTTP Status.
      * @expectedExceptionCode       401
@@ -43,24 +49,36 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $wrapper->request('form.json');
     }
 
+    /**
+     * @covers  ::getForms
+     */
     public function testGetFormsIdealNoFolders() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $forms = $wrapper->getForms();
         $this->assertEquals(count($forms), FORM_COUNT);
     }
 
+    /**
+     * @covers  ::getForms
+     */
     public function testGetFormsIdealFolders() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $folders = $wrapper->getForms(true);
         $this->assertEquals(count($folders), UNEMPTY_FOLDER_COUNT);
     }
 
+    /**
+     * @covers  ::getFormDetails
+     */
     public function testGetFormDetailsIdeal() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $form = $wrapper->getFormDetails(FORM_DETAILS_ID);
         $this->assertEquals($form->name, FORM_DETAILS_NAME);
     }
 
+    /**
+     * @covers  ::getFormDetails
+     */
     public function testGetFormDetailsBadFormId() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $wrapper->finalized = false;
