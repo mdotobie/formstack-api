@@ -24,5 +24,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php
  * @link      http://www.formstack.com/developers
  */
-    class FormstackApi {
-    }
+
+class FormstackApi {
+
+}
