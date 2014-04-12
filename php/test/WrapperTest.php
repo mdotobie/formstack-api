@@ -33,6 +33,16 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $wrapper->request('/test/endpoint', 'FAIL');
     }
 
+    /**
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Request failed. Exception code contains HTTP Status.
+     * @expectedExceptionCode       401
+     */
+    public function testRequestBadToken() {
+        $wrapper = new FormstackApi('fail');
+        $wrapper->request('form.json');
+    }
+
     public function testGetFormsIdealNoFolders() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $forms = $wrapper->getForms();
