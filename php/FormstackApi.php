@@ -35,18 +35,20 @@ class FormstackApi {
 
     public function getForms($folderOrganized = false) {
         $arguments = array(
-            'folders'   =>  $folderOrganized ? '1' : '0',
+            'folders'   =>  $folderOrganized ? 1 : 0,
         );
 
         $responseJson = $this->request('form.json', 'GET', $arguments);
         $response = json_decode($responseJson);
 
         if ($folderOrganized) {
-        print count($response->forms);
+            // Folders are returned as properties of the response->forms object
+            // Converting response->forms to an array to be similar in behavior
+            // to when there are no folders
+            $response->forms = (array) $response->forms;
         }
 
         return $response->forms;
-        //var_dump($forms);exit;
     }
 
     public function request($endpoint, $verb = 'GET', $arguments = array()) {
