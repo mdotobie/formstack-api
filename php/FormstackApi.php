@@ -33,7 +33,23 @@ class FormstackApi {
         $this->accessToken = $accessToken;
     }
 
-    public function request($endpoint, $verb = 'GET') {
+    public function getForms($folderOrganized = false) {
+        $arguments = array(
+            'folders'   =>  $folderOrganized ? '1' : '0',
+        );
+
+        $responseJson = $this->request('form.json', 'GET', $arguments);
+        $response = json_decode($responseJson);
+
+        if ($folderOrganized) {
+        print count($response->forms);
+        }
+
+        return $response->forms;
+        //var_dump($forms);exit;
+    }
+
+    public function request($endpoint, $verb = 'GET', $arguments = array()) {
         if (empty($endpoint)) {
             throw new Exception('You must include an enpoint to request');
         }
