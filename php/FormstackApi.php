@@ -65,6 +65,7 @@ class FormstackApi {
 
         // Ensure HTTP verb is declared properly
         $verb = strtoupper($verb);
+        $url = $this->apiUrl . $endpoint;
 
         if (!in_array($verb, $validVerbs)) {
             throw new Exception('Your requests must be performed with one of the '
@@ -74,7 +75,15 @@ class FormstackApi {
 
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $this->apiUrl . $endpoint);
+        if (!empty($arguments)) {
+            if ($verb === 'GET') {
+                $url .= '?' . http_build_query($arguments);
+            } else {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($arguments)); 
+            }
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Bearer ' . $this->accessToken
@@ -88,7 +97,7 @@ class FormstackApi {
         if ($verb === 'PUT' || $verb === 'DELETE') {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
         }
-
+        
         $result = curl_exec($ch);
         $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlErrorCode = curl_errno($ch);
