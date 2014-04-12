@@ -79,7 +79,7 @@ class FormstackApi {
             if ($verb === 'GET') {
                 $url .= '?' . http_build_query($arguments);
             } else {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($arguments)); 
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($arguments));
             }
         }
 
@@ -97,7 +97,7 @@ class FormstackApi {
         if ($verb === 'PUT' || $verb === 'DELETE') {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
         }
-        
+
         $result = curl_exec($ch);
         $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlErrorCode = curl_errno($ch);
