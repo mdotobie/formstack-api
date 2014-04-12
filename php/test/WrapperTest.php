@@ -1,6 +1,10 @@
 <?php
-require_once '../config.php'; // Define a Constant ACCESS_TOKEN in your own config.php
-require_once '../FormstackApi.php';
+/**
+ * These tests depend on some constants that will need to be set. I'm setting
+ * them in a config file that I'm requiring_once.
+ */
+require_once dirname(__FILE__) . '/../config.php'; 
+require_once dirname(__FILE__) . '/../FormstackApi.php';
 
 /**
  * This test code runs on PHPUnit 4.0. You will need to install PHPUnit as
