@@ -55,7 +55,8 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     public function testGetFormsIdealNoFolders() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $forms = $wrapper->getForms();
-        $this->assertEquals(count($forms), FORM_COUNT);
+        $this->assertTrue(is_array($forms));
+        $this->assertNotEquals(count($forms), 0);
     }
 
     /**
