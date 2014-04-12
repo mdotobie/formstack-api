@@ -32,4 +32,10 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $wrapper->request('/test/endpoint', 'FAIL');
     }
+
+    public function testGetFormsIdealNoFolders() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $forms = $wrapper->getForms();
+        $this->assertEquals(count($forms), FORM_COUNT);
+    }
 }
