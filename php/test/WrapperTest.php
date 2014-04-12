@@ -54,4 +54,25 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $folders = $wrapper->getForms(true);
         $this->assertEquals(count($folders), UNEMPTY_FOLDER_COUNT);
     }
+
+    public function testGetFormDetailsIdeal() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $form = $wrapper->getFormDetails(FORM_DETAILS_ID);
+        $this->assertEquals($form->name, FORM_DETAILS_NAME);
+    }
+
+    public function testGetFormDetailsBadFormId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $wrapper->finalized = false;
+        $response = $wrapper->getFormDetails(1234); // Form that should not exist
+        $this->assertEquals($response->status, 'error');
+        $this->assertEquals($response->error, 'The form was not found');
+
+        // Form that is more likely to exist but not part of your account
+        $response = $wrapper->getFormDetails(FORM_DETAILS_ID + 1);
+        $this->assertEquals($response->status, 'error');
+        $this->assertEquals($response->error, 'You do not have high enough '
+            . 'permissions for this form.'
+        );
+    }
 }
