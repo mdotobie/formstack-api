@@ -29,4 +29,40 @@ class FormstackApi {
     private $apiUrl = 'https://www.formstack.com/api/v2/';
     private $accessToken = '';
 
+    public function __construct($accessToken) {
+        $this->accessToken = $accessToken;
+    }
+
+    private function request($endpoint, $verb = 'GET') {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $this->apiUrl . $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Authorization: Bearer ' . $this->accessToken
+            )
+        );
+
+        if ($verb === 'POST' || $verb === 'PUT') {
+            curl_setopt($ch, CURLOPT_POST, 1);
+        }
+
+        if ($verb === 'PUT' || $verb === 'DELETE') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
+        }
+
+        $result = curl_exec($ch);
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErrorCode = curl_errno($ch);
+        $curlErrorMessage = curl_error($ch);
+
+        curl_close($ch);
+
+        if ($httpStatus < 200 || $httpStatus >= 300) {
+            print 'Server Response: ' . print_r($result, true) . "\n\n"
+                . 'HTTP Status Code: ' . $httpStatus . "\n\n" . 'Curl Error Code: '
+                . print_r($curlErrorCode, true) . "\n\n" . 'Curl Error Message: '
+                . print_r($curlErrorMessage, true);
+        }
+    }
 }
