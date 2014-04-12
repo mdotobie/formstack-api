@@ -59,6 +59,13 @@ class FormstackApi {
         return $response;
     }
 
+    public function copyForm($formId) {
+        $responseJson = $this->request('form/' . $formId . '/copy', 'POST');
+        $copiedForm = json_decode($responseJson);
+
+        return $copiedForm;
+    }
+
     public function request($endpoint, $verb = 'GET', $arguments = array()) {
         if (empty($endpoint)) {
             throw new Exception('You must include an enpoint to request');
