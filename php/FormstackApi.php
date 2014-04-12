@@ -34,6 +34,16 @@ class FormstackApi {
         $this->accessToken = $accessToken;
     }
 
+    /**
+     * Get a list of the forms in your account
+     *
+     * @link    https://www.formstack.com/developers/api/resources/form#form_GET
+     *
+     * @param   bool    $folderOrganized    Flag to determine whether response
+     *  should be structured in Folders
+     *
+     * @return  array   $response->forms    Array of all Forms or Array of Folders
+     */
     public function getForms($folderOrganized = false) {
         $arguments = array(
             'folders'   =>  $folderOrganized ? 1 : 0,
@@ -52,6 +62,15 @@ class FormstackApi {
         return $response->forms;
     }
 
+    /**
+     * Get the detailed information of a specific form
+     *
+     * @link    https://www.formstack.com/developers/api/resources/form#form/:id_GET
+     *
+     * @param   int     $formId     The ID of the form to look up
+     *
+     * @return  object  $response   A \stdClass representing all of the Form's data
+     */
     public function getFormDetails($formId) {
         $responseJson = $this->request('form/' . $formId, 'GET');
         $response = json_decode($responseJson);
@@ -59,6 +78,15 @@ class FormstackApi {
         return $response;
     }
 
+    /**
+     * Create a copy of a form in your account.
+     *
+     * @link    https://www.formstack.com/developers/api/resources/form#form/:id/copy_POST
+     *
+     * @param   int     $formId     The ID of the form to copy
+     *
+     * @return  object  $copiedForm A \stdClass representing all of the copy's data
+     */
     public function copyForm($formId) {
         $responseJson = $this->request('form/' . $formId . '/copy', 'POST');
         $copiedForm = json_decode($responseJson);
@@ -66,6 +94,19 @@ class FormstackApi {
         return $copiedForm;
     }
 
+    /**
+     * Helper method to make all requests to Formstack API
+     *
+     * @param   string      $endpoint   The endpoint to make requests to
+     * @param   string      $verb       String representation of HTTP verb to perform
+     * @param   array       $arguments  Array of all request arguments to use
+     *
+     * @throws  Exception               if no endpoint is specified
+     * @throws  Exception               if an invalid verb is specified
+     * @throws  Exception               if the HTTP request fails
+     *
+     * @return  string                  JSON response from request
+     */
     public function request($endpoint, $verb = 'GET', $arguments = array()) {
         if (empty($endpoint)) {
             throw new Exception('You must include an enpoint to request');
