@@ -99,6 +99,9 @@ class FormstackApi {
                 . 'HTTP Status Code: ' . $httpStatus . "\n\n" . 'Curl Error Code: '
                 . print_r($curlErrorCode, true) . "\n\n" . 'Curl Error Message: '
                 . print_r($curlErrorMessage, true);
+            exit;
         }
+
+        return $result;
     }
 }
