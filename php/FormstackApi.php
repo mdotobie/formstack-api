@@ -26,5 +26,7 @@
  */
 
 class FormstackApi {
+    private $apiUrl = 'https://www.formstack.com/api/v2/';
+    private $accessToken = '';
 
 }
