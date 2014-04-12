@@ -52,6 +52,13 @@ class FormstackApi {
         return $response->forms;
     }
 
+    public function getFormDetails($formId) {
+        $responseJson = $this->request('form/' . $formId, 'GET');
+        $response = json_decode($responseJson);
+
+        return $response;
+    }
+
     public function request($endpoint, $verb = 'GET', $arguments = array()) {
         if (empty($endpoint)) {
             throw new Exception('You must include an enpoint to request');
