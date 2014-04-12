@@ -33,7 +33,27 @@ class FormstackApi {
         $this->accessToken = $accessToken;
     }
 
-    private function request($endpoint, $verb = 'GET') {
+    public function request($endpoint, $verb = 'GET') {
+        if (empty($endpoint)) {
+            throw new Exception('You must include an enpoint to request');
+        }
+
+        $validVerbs = array(
+            'GET',
+            'PUT',
+            'POST',
+            'DELETE',
+        );
+
+        // Ensure HTTP verb is declared properly
+        $verb = strtoupper($verb);
+
+        if (!in_array($verb, $validVerbs)) {
+            throw new Exception('Your requests must be performed with one of the '
+                . 'following verbs: ' . implode(', ', $validVerbs) . '.'
+            );
+        }
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $this->apiUrl . $endpoint);
