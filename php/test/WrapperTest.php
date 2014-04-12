@@ -93,4 +93,30 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
             . 'permissions for this form.'
         );
     }
+
+    /**
+     * @covers  ::copyForm
+     */
+    public function testCopyFormIdeal() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $originalForm = $wrapper->getFormDetails(COPY_FORM_ID);
+        $copiedForm = $wrapper->copyForm(COPY_FORM_ID);
+        $this->assertStringStartsWith($originalForm->name . ' - COPY', $copiedForm->name);
+    }
+
+    /**
+     * @covers  ::copyForm
+     */
+    public function testCopyFormBadFormId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->copyForm(1234); // Form that should not exist
+        $this->assertEquals($response->status, 'error');
+        $this->assertEquals($response->error, 'A valid form id was not supplied');
+
+        // Form that is more likely to exist but not part of your account
+        $response = $wrapper->copyForm(COPY_FORM_ID + 1);
+        $this->assertEquals($response->status, 'error');
+        $this->assertEquals($response->error, 'A valid form id was not supplied');
+
+    }
 }
