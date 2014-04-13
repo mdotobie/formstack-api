@@ -337,6 +337,130 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers  ::submitForm
+     */
+    public function testSubmitFormIdeal() {
+        global $submitFormFieldIds, $submitFormFieldValues;
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->submitForm(
+            SUBMIT_FORM_ID, $submitFormFieldIds, $submitFormFieldValues
+        );
+
+        $this->assertEquals($response->form, SUBMIT_FORM_ID);
+
+        foreach ($response->data as $submissionData) {
+            $fieldCount = count($submitFormFieldIds);
+
+            for ($i = 0; $i < $fieldCount; $i++) {
+                if ($submissionData->field == $submitFormFieldIds[$i]) {
+                    // Handle Checking Data With Subfields
+                    if (is_array($submitFormFieldValues[$i])) {
+                        $formattedArray = array();
+                        $rows = explode("\n", $submissionData->value);
+
+                        foreach ($rows as $row) {
+                            $keyValuePair = explode(' = ', $row);
+
+                            if (empty($keyValuePair[0])) {
+                                continue;
+                            }
+
+                            $formattedArray[$keyValuePair[0]] = $keyValuePair[1];
+                        }
+
+                        $this->assertEquals($formattedArray, $submitFormFieldValues[$i]);
+                    } else {
+                        $this->assertEquals($submissionData->value,
+                            $submitFormFieldValues[$i]
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @covers                      ::submitForm
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Form ID must be numeric
+     */
+    public function testSubmitFormNonNumericFormId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->submitForm(SUBMIT_FORM_ID . 'FAIL');
+    }
+
+    /**
+     * @covers                      ::submitForm
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    You must use a valid Date/Time string formatted
+     *  in YYYY-MM-DD HH:MM:SS
+     */
+    public function testSubmitFormBadTimestamp() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->submitForm(
+            SUBMIT_FORM_ID,
+            array(),
+            array(),
+            'this is not a valid date/time string'
+        );
+    }
+
+    /**
+     * @covers                      ::submitForm
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    There must be a one-to-one relationship between
+     *  Field IDs and their values
+     */
+    public function testSubmitFormDataArrayMismatch() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array(1,2,3);
+        $fieldValues = array('a', 'b');
+        $response = $wrapper->submitForm(
+            SUBMIT_FORM_ID,
+            $fieldIds,
+            $fieldValues
+        );
+    }
+
+    /**
+     * @covers                      ::submitForm
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    There must be a one-to-one relationship between
+     *  Field IDs and their values
+     */
+    public function testSubmitFormDataArrayMismatchReversed() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array(1,2);
+        $fieldValues = array('a', 'b', 'c');
+        $response = $wrapper->submitForm(
+            SUBMIT_FORM_ID,
+            $fieldIds,
+            $fieldValues
+        );
+    }
+
+    /**
+     * @covers                      ::submitForm
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Field IDs must be numeric
+     */
+    public function testSubmitFormNonNumericFieldId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array('fail');
+        $fieldValues = array('a');
+        $response = $wrapper->submitForm(
+            SUBMIT_FORM_ID,
+            $fieldIds,
+            $fieldValues
+        );
+    }
+
+    /**
      * @covers  ::getSubmissionDetails
      */
     public function testGetSubmissionDetailsIdeal() {
