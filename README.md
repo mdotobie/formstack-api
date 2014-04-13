@@ -11,7 +11,7 @@ Requirements to Use Any Formstack APIs in this Repository
 
 FAQS
 ====
-* **Where's the wrapper for <INSERT LANGUAGE HERE>?** - Currently our goal is
+* **Where's the wrapper for \<INSERT LANGUAGE HERE\>?** - Currently our goal is
  to make new wrappers for all of the wrappers that currently exist for the V1 API.
  Have a pet language you'd love to see a wrapper for? We're willing to take pull
  requests for changes to existing wrappers and/or additional wrappers.
