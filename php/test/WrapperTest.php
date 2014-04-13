@@ -217,7 +217,17 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $submissions = $wrapper->getSubmissions(
             GET_SUBMISSIONS_FORM, '', '', '', $fieldIds, $fieldValues
         );
+    }
 
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    You must have a one to one relationship
+     * between field ids and field values
+     */
+    public function testGetSubmissionsSearchMismatchReversed() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
         $fieldIds = array(
             1,
             2,
