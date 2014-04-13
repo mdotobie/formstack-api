@@ -466,4 +466,39 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
             $fieldValues
         );
     }
+
+    /**
+     * @covers  ::deleteSubmission
+     */
+    public function testDeleteSubmissionIdeal() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            DELETE_SUBMISSION_FORM,
+            '',
+            '',
+            '',
+            array(),
+            array(),
+            1,
+            100,
+            'ASC'
+        );
+
+        $submissionToDelete = $submissions[0]->id;
+        $response = $wrapper->deleteSubmission($submissionToDelete);
+
+        $this->assertEquals($response->success, 1);
+        $this->assertEquals($response->id, $submissionToDelete);
+    }
+
+    /**
+     * @covers                      ::deleteSubmission
+     *
+     * @expectedException           Exception
+     * @expectedException           Submission ID must be numeric
+     */
+    public function testDeleteSubmissionNonNumericSubmissionId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->deleteSubmission('this is not a valid id');
+    }
 }
