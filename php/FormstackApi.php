@@ -131,7 +131,6 @@ class FormstackApi {
      * @throws  Exception                   If perPage is not nmueric
      * @throws  Exception                   If perPage is out of bounds (less than 1 or greater than 100)
      * @throws  Exception                   If sort is not 'ASC' or 'DESC'
-     * @throws  Exception                   If any searchFieldIds are not numeric
      *
      * @return  array   $submissions        All retrieved submissions for the given Form
      */
@@ -212,8 +211,6 @@ class FormstackApi {
      *
      * @throws  Exception               If a non-numeric Form ID was provided
      * @throws  Exception               If an invalid Date/Time string was provided for $timestamp
-     * @throws  Exception               If the count of Field IDs and Field Values does not match
-     * @throws  Exception               If any of the Field IDs are not numeric
      *
      * @return  object  $response       \stdClass representation of Submission response
      */
@@ -301,8 +298,6 @@ class FormstackApi {
      *
      * @throws  Exception               If submission ID is not numeric
      * @throws  Exception               If an invalid Date/Time string is used for timestamp
-     * @throws  Exception               If there's differing numbers of FieldIds and FieldValues
-     * @throws  Exception               If any Field ID provided is non-numeric
      *
      * @return  object  $response       \stdClass representation of API response
      */
