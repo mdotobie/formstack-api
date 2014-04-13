@@ -69,6 +69,8 @@ class FormstackApi {
      *
      * @param   int     $formId     The ID of the form to look up
      *
+     * @throws  Exception           If the Form ID is not numeric
+     *
      * @return  object  $response   A \stdClass representing all of the Form's data
      */
     public function getFormDetails($formId) {
@@ -88,6 +90,8 @@ class FormstackApi {
      * @link    https://www.formstack.com/developers/api/resources/form#form/:id/copy_POST
      *
      * @param   int     $formId     The ID of the form to copy
+     *
+     * @throws  Exception           If the Form ID is not numeric
      *
      * @return  object  $copiedForm A \stdClass representing all of the copy's data
      */
@@ -118,6 +122,16 @@ class FormstackApi {
      * @param   string  $sort               Sort direction ('DESC or 'ASC')
      * @param   bool    $data               Whether to include submission data in request
      * @param   bool    $expandData         Whether to include extra data formatting for included data
+     *
+     * @throws  Exception                   If provided Form ID is not numeric
+     * @throws  Exception                   If invalid Date/Time String provided for minTime
+     * @throws  Exception                   If invalid Date/Time String provided for maxTime
+     * @throws  Exception                   If number of searchIds and searchValues are not identical
+     * @throws  Exception                   If pageNumber is not numeric
+     * @throws  Exception                   If perPage is not nmueric
+     * @throws  Exception                   If perPage is out of bounds (less than 1 or greater than 100)
+     * @throws  Exception                   If sort is not 'ASC' or 'DESC'
+     * @throws  Exception                   If any searchFieldIds are not numeric
      *
      * @return  array   $submissions        All retrieved submissions for the given Form
      */
