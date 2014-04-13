@@ -182,9 +182,9 @@ class FormstackApi {
         }
 
         $responseJson = $this->request($endpoint, 'GET', $arguments);
-        $submissions = json_decode($responseJson);
+        $response = json_decode($responseJson);
 
-        return $submissions;
+        return $response->submissions;
     }
 
     /**
