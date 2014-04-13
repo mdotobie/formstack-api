@@ -215,6 +215,40 @@ class FormstackApi {
     }
 
     /**
+     * Get the details of a specific submission
+     *
+     * @link    https://www.formstack.com/developers/api/resources/submission#submission/:id_GET
+     *
+     * @param   int     $submissionId       The ID of the submission to get data for
+     * @param   string  $encryptionPassword The encryption password on the form (if applicable)
+     *
+     * @throws  Exception                   If the Submission ID is not numeric
+     *
+     * @return  object  $submission         \stdClass representation of the Submission Data
+     */
+    public function getSubmissionDetails($submissionId, $encryptionPassword = '') {
+        if (!is_numeric($submissionId)) {
+            throw new Exception('Submission ID must be numeric');
+        }
+
+        $arguments = array();
+
+        if (!empty($encryptionPassword)) {
+            $arguments['encryption_password'] = $encryptionPassword;
+        }
+
+        $responseJson = $this->request(
+            'submission/' . $submissionId . '.json',
+            'GET',
+            $arguments
+        );
+
+        $submission = json_decode($responseJson);
+
+        return $submission;
+    }
+
+    /**
      * Helper method to make all requests to Formstack API
      *
      * @param   string      $endpoint   The endpoint to make requests to
