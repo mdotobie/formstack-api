@@ -267,6 +267,7 @@ class FormstackApi {
      * @throws  Exception               If there's differing numbers of FieldIds and FieldValues
      * @throws  Exception               If any Field ID provided is non-numeric
      *
+     * @return  object  $response       \stdClass representation of API response
      */
     public function editSubmissionData($submissionId, $fieldIds = array(),
         $fieldValues = array(), $timestamp = '', $userAgent = '', $ipAddress = '',
@@ -322,8 +323,9 @@ class FormstackApi {
             'PUT',
             $arguments
         );
+        $response = json_decode($responseJson);
 
-        return json_decode($responseJson);
+        return $response;
     }
 
     /**
