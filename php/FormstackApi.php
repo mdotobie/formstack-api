@@ -95,6 +95,90 @@ class FormstackApi {
     }
 
     /**
+     * Get all submissions for a specific form
+     *
+     * @link    https://www.formstack.com/developers/api/resources/submission#form/:id/submission_GET
+     *
+     * @param   int     $formId             The ID of the form to retrieve submissions for
+     * @param   string  $encryptionPassword The encryption password (if applicable)
+     * @param   string  $minTime            Date/Time string for start time in EST to group submissions
+     * @param   string  $maxTime            Date/Time string for end time in EST to group submissions
+     * @param   array   $searchFieldIds     Array of Field IDs to base searching around
+     * @param   array   $searchFieldValues  Array of values related to IDs in searchFieldIds
+     * @param   int     $pageNumber         Page of submissions to collect from
+     * @param   int     $perPage            Number of submissions to retrieve per request
+     * @param   string  $sort               Sort direction ('DESC or 'ASC')
+     * @param   bool    $data               Whether to include submission data in request
+     * @param   bool    $expandData         Whether to include extra data formatting for included data
+     *
+     * @return  array   $submissions        All retrieved submissions for the given Form
+     */
+    public function getSubmissions($formId, $encryptionPassword = '',
+        $minTime = '', $maxTime = '', $searchFieldIds = array(),
+        $searchFieldValues = array(), $pageNumber = 1, $perPage = 25, $sort = 'DESC',
+        $data = false, $expandData = false) {
+
+        $endpoint = 'form/' . $formId . '/submission.json';
+
+        if (!empty($minTime) && strtotime($minTime) === false) {
+            throw new Exception('Invalid value for minTime parameter');
+        } elseif (!empty($maxTime) && strtotime($maxTime) === false) {
+            throw new Exception('Invalid value for maxTime parameter');
+        }
+
+        if (count($searchFieldIds) !== count($searchFieldValues)) {
+            throw new Exception('You must have a one to one relationship between '
+                . 'field ids and field values'
+            );
+        }
+
+        if ($perPage > 100) {
+            throw new Exception('You can only retrieve a maximum of 100 submissions '
+                . 'per request'
+            );
+        }
+
+        $sort = strtoupper($sort);
+
+        if ($sort !== 'ASC' && $sort !== 'DESC') {
+            throw new Exception('The sort parameter must be ASC or DESC');
+        }
+
+        $arguments = array(
+            'encryption_password'   =>  $encryptionPassword,
+            'min_time'              =>  $minTime,
+            'max_time'              =>  $maxTime,
+            'page_number'           =>  $pageNumber,
+            'per_page'              =>  $perPage,
+            'sort'                  =>  $sort,
+            'data'                  =>  $data,
+            'expand_data'           =>  $expandData,
+        );
+
+        // Clear out empty values
+        $argumentCount = count($arguments);
+
+        for ($i = 0; $i < $argumentCount; $i++) {
+            if (empty($arguments[$i])) {
+                unset($arguments[$i]);
+            }
+        }
+
+        // Add Search Arguments
+        $fieldIdCount = count($searchFieldIds);
+
+        for ($i = 0; $i < $fieldIdCount; $i++) {
+            $arguments['search_field_' . $i] = $searchFieldIds[$i];
+            $arguments['search_value_' . $i] = $searchFieldValues[$i];
+        }
+
+        $responseJson = $this->request($endpoint, 'GET', $arguments);
+        $submissions = json_decode($responseJson);
+
+        return $submissions;
+    }
+
+    /**
      * Helper method to make all requests to Formstack API
      *
      * @param   string      $endpoint   The endpoint to make requests to
