@@ -81,6 +81,17 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers                      ::getFormDetails
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Form ID must be numeric
+     */
+    public function testGetFormDetailsNonNumericFormId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->getFormDetails(FORM_DETAILS_ID . 'FAIL');
+    }
+
+    /**
      * @covers  ::getFormDetails
      */
     public function testGetFormDetailsBadFormId() {
@@ -108,6 +119,18 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers                      ::getFormDetails
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Form ID must be numeric
+     */
+    public function testCopyFormNonNumericFormId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->copyForm(COPY_FORM_ID . 'FAIL');
+    }
+
+
+    /**
      * @covers  ::copyForm
      */
     public function testCopyFormBadFormId() {
@@ -133,6 +156,17 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
 
         $submissions = $wrapper->getSubmissions(GET_SUBMISSIONS_FORM);
         $this->assertEquals(count($submissions), $submissionCount);
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Form ID must be numeric
+     */
+    public function testGetSubmissionNonNumericFormId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(GET_SUBMISSIONS_FORM . 'FAIL');
     }
 
     /**
