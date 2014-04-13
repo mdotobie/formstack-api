@@ -132,9 +132,15 @@ class FormstackApi {
             );
         }
 
-        if ($perPage > 100) {
-            throw new Exception('You can only retrieve a maximum of 100 submissions '
-                . 'per request'
+        if (!is_numeric($pageNumber)) {
+            throw new Exception('The pageNumber value must be numeric');
+        }
+
+        if (!is_numeric($perPage)) {
+            throw new Exception('The perPage value must be numeric');
+        } elseif ($perPage > 100 || $perPage <= 0) {
+            throw new Exception('You can only retrieve a minimum of 1 and '
+                . 'maximum of 100 submissions per request'
             );
         }
 
@@ -168,6 +174,9 @@ class FormstackApi {
         $fieldIdCount = count($searchFieldIds);
 
         for ($i = 0; $i < $fieldIdCount; $i++) {
+            if (!is_numeric($searchFieldIds[$i])) {
+                throw new Exception('Field IDs must be numeric only');
+            }
             $arguments['search_field_' . $i] = $searchFieldIds[$i];
             $arguments['search_value_' . $i] = $searchFieldValues[$i];
         }
