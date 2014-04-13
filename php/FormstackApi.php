@@ -189,6 +189,7 @@ class FormstackApi {
             if (!is_numeric($searchFieldIds[$i])) {
                 throw new Exception('Field IDs must be numeric only');
             }
+
             $arguments['search_field_' . $i] = $searchFieldIds[$i];
             $arguments['search_value_' . $i] = $searchFieldValues[$i];
         }
