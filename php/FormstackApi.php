@@ -72,6 +72,10 @@ class FormstackApi {
      * @return  object  $response   A \stdClass representing all of the Form's data
      */
     public function getFormDetails($formId) {
+        if (!is_numeric($formId)) {
+            throw new Exception('Form ID must be numeric');
+        }
+
         $responseJson = $this->request('form/' . $formId, 'GET');
         $response = json_decode($responseJson);
 
@@ -88,6 +92,10 @@ class FormstackApi {
      * @return  object  $copiedForm A \stdClass representing all of the copy's data
      */
     public function copyForm($formId) {
+        if (!is_numeric($formId)) {
+            throw new Exception('Form ID must be numeric');
+        }
+
         $responseJson = $this->request('form/' . $formId . '/copy', 'POST');
         $copiedForm = json_decode($responseJson);
 
@@ -117,6 +125,10 @@ class FormstackApi {
         $minTime = '', $maxTime = '', $searchFieldIds = array(),
         $searchFieldValues = array(), $pageNumber = 1, $perPage = 25, $sort = 'DESC',
         $data = false, $expandData = false) {
+
+        if (!is_numeric($formId)) {
+            throw new Exception('Form ID must be numeric');
+        }
 
         $endpoint = 'form/' . $formId . '/submission.json';
 
