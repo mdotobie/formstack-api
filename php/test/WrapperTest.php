@@ -1,8 +1,4 @@
 <?php
-/**
- * These tests depend on some constants that will need to be set. I'm setting
- * them in a config file that I'm requiring_once.
- */
 require_once dirname(__FILE__) . '/../config.php';
 require_once dirname(__FILE__) . '/../FormstackApi.php';
 
@@ -10,6 +6,13 @@ require_once dirname(__FILE__) . '/../FormstackApi.php';
  * This test code runs on PHPUnit 4.0. You will need to install PHPUnit as
  * described at http://phpunit.de/manual/current/en/installation.html before
  * you can successfully run these tests for yourself.
+ *
+ * NOTE: This Test Code depends on a config file containing constants used throughout
+ * this code. You must create and reference your config file with the proper values.
+ *
+ * NOTE: This Test Code makes numerous API Calls to the Formstack API when run.
+ * It's inadvisable to use this test code with Access Token(s) utilized in
+ * production, as the Formstack API is rate limited to 14,400 requests a day.
  */
 
 /**
