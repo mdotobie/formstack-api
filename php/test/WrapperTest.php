@@ -251,7 +251,7 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
      * @covers                      ::getSubmissions
      *
      * @expectedException           Exception
-     * @expectedExceptionMessage    Field IDs must be numeric only
+     * @expectedExceptionMessage    Field IDs must be numeric
      */
     public function testGetSubmissionsNonNumericFieldIds() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
