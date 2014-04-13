@@ -381,4 +381,85 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
             }
         }
     }
+
+    /**
+     * @covers                      ::editSubmissionData
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Submission ID must be numeric
+     */
+    public function testEditSubmissionDataNonNumericId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->editSubmissionData(EDIT_SUBMISSION_ID . 'FAIL');
+    }
+
+    /**
+     * @covers                      ::editSubmissionData
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    You must use a valid Date/Time string formatted
+     *  in YYYY-MM-DD HH:MM:SS'
+     */
+    public function testEditSubmissionDataBadTimestamp() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $response = $wrapper->editSubmissionData(
+            EDIT_SUBMISSION_ID,
+            array(),
+            array(),
+            'Bad Date String'
+        );
+    }
+
+    /**
+     * @covers                      ::editSubmissionData
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    There must be a one-to-one relationship
+     *  between Field IDs and their values
+     */
+    public function testEditSubmissionDataArrayCountMismatch() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array(1,2,3);
+        $fieldValues = array('test-1', 'test-2');
+        $response = $wrapper->editSubmissionData(
+            EDIT_SUBMISSION_ID,
+            $fieldIds,
+            $fieldValues
+        );
+    }
+
+    /**
+     * @covers                      ::editSubmissionData
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    There must be a one-to-one relationship
+     *  between Field IDs and their values
+     */
+    public function testEditSubmissionDataArrayCountMismatchReversed() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array(1,2,);
+        $fieldValues = array('test-1', 'test-2', 'test-3');
+        $response = $wrapper->editSubmissionData(
+            EDIT_SUBMISSION_ID,
+            $fieldIds,
+            $fieldValues
+        );
+    }
+
+    /**
+     * @covers                      ::editSubmissionData
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Field IDs must be numeric
+     */
+    public function testEditSubmissionDataNonNumericFieldIds() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array('fail');
+        $fieldValues = array('test-1');
+        $response = $wrapper->editSubmissionData(
+            EDIT_SUBMISSION_ID,
+            $fieldIds,
+            $fieldValues
+        );
+    }
 }
