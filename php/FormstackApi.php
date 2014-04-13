@@ -187,26 +187,8 @@ class FormstackApi {
             'expand_data'           =>  $expandData,
         );
 
-        // Clear out empty values
-        $argumentCount = count($arguments);
-
-        for ($i = 0; $i < $argumentCount; $i++) {
-            if (empty($arguments[$i])) {
-                unset($arguments[$i]);
-            }
-        }
-
-        // Add Search Arguments
-        $fieldIdCount = count($searchFieldIds);
-
-        for ($i = 0; $i < $fieldIdCount; $i++) {
-            if (!is_numeric($searchFieldIds[$i])) {
-                throw new Exception('Field IDs must be numeric only');
-            }
-
-            $arguments['search_field_' . $i] = $searchFieldIds[$i];
-            $arguments['search_value_' . $i] = $searchFieldValues[$i];
-        }
+        $arguments = $this->cleanArguments($arguments);
+        $arguments = $this->addFieldData($arguments, $searchFieldIds, $searchFieldValues);
 
         $responseJson = $this->request($endpoint, 'GET', $arguments);
         $response = json_decode($responseJson);
@@ -256,32 +238,8 @@ class FormstackApi {
             'read'              =>  $read ? 1 : 0,
         );
 
-        $argumentCount = count($arguments);
-
-        // Remove empty arguments to avoid overwriting existing data
-        for ($i = 0; $i < $argumentCount; $i++) {
-            if (empty($arguments[$i])) {
-                unset($arguments[$i]);
-            }
-        }
-
-        if (!empty($fieldIds)) {
-            $fieldIdCount = count($fieldIds);
-
-            if ($fieldIdCount !== count($fieldValues)) {
-                throw new Exception('There must be a one-to-one relationship between '
-                    . 'Field IDs and their values'
-                );
-            }
-
-            for ($i = 0; $i < $fieldIdCount; $i++) {
-                if (!is_numeric($fieldIds[$i])) {
-                    throw new Exception('Field IDs must be numeric');
-                }
-
-                $arguments['field_' . $fieldIds[$i]] = $fieldValues[$i];
-            }
-        }
+        $arguments = $this->cleanArguments($arguments);
+        $arguments = $this->addFieldData($arguments, $fieldIds, $fieldValues);
 
         $responseJson = $this->request(
             'form/' . $formId . '/submission.json',
@@ -370,32 +328,8 @@ class FormstackApi {
             'read'              =>  $read ? 1 : 0,
         );
 
-        $argumentCount = count($arguments);
-
-        // Remove empty arguments to avoid overwriting existing data
-        for ($i = 0; $i < $argumentCount; $i++) {
-            if (empty($arguments[$i])) {
-                unset($arguments[$i]);
-            }
-        }
-
-        if (!empty($fieldIds)) {
-            $fieldIdCount = count($fieldIds);
-
-            if ($fieldIdCount !== count($fieldValues)) {
-                throw new Exception('There must be a one-to-one relationship between '
-                    . 'Field IDs and their values'
-                );
-            }
-
-            for ($i = 0; $i < $fieldIdCount; $i++) {
-                if (!is_numeric($fieldIds[$i])) {
-                    throw new Exception('Field IDs must be numeric');
-                }
-
-                $arguments['field_' . $fieldIds[$i]] = $fieldValues[$i];
-            }
-        }
+        $arguments = $this->cleanArguments($arguments);
+        $arguments = $this->addFieldData($arguments, $fieldIds, $fieldValues);
 
         $responseJson = $this->request(
             'submission/' . $submissionId . '.json',
@@ -508,5 +442,59 @@ class FormstackApi {
         }
 
         return $result;
+    }
+
+    /**
+     * Utitlity method to remove unused arguments from array to avoid overwrite
+     *
+     * @param   array   $arguments  The arguments to clean
+     *
+     * @return  array   $arguments  The cleaned arguments
+     */
+    private function cleanArguments($arguments) {
+        $argumentCount = count($arguments);
+
+        // Remove empty arguments to avoid overwriting existing data
+        for ($i = 0; $i < $argumentCount; $i++) {
+            if (empty($arguments[$i])) {
+                unset($arguments[$i]);
+            }
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Utility method to insert field data into the arguments array properly
+     *
+     * @param   array   $arguments      The arguments to insert field data into
+     * @param   array   $fieldIds       Array of field ids to have data inserted for
+     * @param   array   $fieldValues    Array of field values associated with field ids
+     *
+     * @throws  Exception               If there's a size mismatch between IDs and Values
+     * @throws  Exception               If non-numeric field ids were provided
+     *
+     * @return  array   $arguments      The arguments array with values now properly inserted
+     */
+    private function addFieldData($arguments, $fieldIds, $fieldValues) {
+        if (!empty($fieldIds)) {
+            $fieldIdCount = count($fieldIds);
+
+            if ($fieldIdCount !== count($fieldValues)) {
+                throw new Exception('There must be a one-to-one relationship between '
+                    . 'Field IDs and their values'
+                );
+            }
+
+            for ($i = 0; $i < $fieldIdCount; $i++) {
+                if (!is_numeric($fieldIds[$i])) {
+                    throw new Exception('Field IDs must be numeric');
+                }
+
+                $arguments['field_' . $fieldIds[$i]] = $fieldValues[$i];
+            }
+        }
+
+        return $arguments;
     }
 }
