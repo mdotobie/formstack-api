@@ -490,16 +490,17 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
             'first' =>  'test' . time() . '-first',
             'last'  =>  'test' . time() . '-last',
         );
+        $editSubmissionId = $this->getEditableSubmissionId();
         $response = $wrapper->editSubmissionData(
-            EDIT_SUBMISSION_ID,
+            $editSubmissionId,
             array(EDIT_SUBMISSION_FIELD_ID, EDIT_SUBMISSION_ARRAY_FIELD_ID),
             array($value, $arrayValue)
         );
 
         $this->assertEquals($response->success, 1);
-        $this->assertEquals($response->id, EDIT_SUBMISSION_ID);
+        $this->assertEquals($response->id, $editSubmissionId);
 
-        $submission = $wrapper->getSubmissionDetails(EDIT_SUBMISSION_ID);
+        $submission = $wrapper->getSubmissionDetails($editSubmissionId);
 
         foreach ($submission->data as $submissionData) {
             if ($submissionData->field === EDIT_SUBMISSION_FIELD_ID) {
@@ -596,19 +597,7 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteSubmissionIdeal() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
-        $submissions = $wrapper->getSubmissions(
-            DELETE_SUBMISSION_FORM,
-            '',
-            '',
-            '',
-            array(),
-            array(),
-            1,
-            100,
-            'ASC'
-        );
-
-        $submissionToDelete = $submissions[0]->id;
+        $submissionToDelete = $this->getEditableSubmissionId();
         $response = $wrapper->deleteSubmission($submissionToDelete);
 
         $this->assertEquals($response->success, 1);
@@ -624,5 +613,27 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     public function testDeleteSubmissionNonNumericSubmissionId() {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $response = $wrapper->deleteSubmission('this is not a valid id');
+    }
+
+    /**
+     * Utility method to get a editable submission id
+     *
+     * @return  int $submissions[0]->id The id of the first submission found
+     */
+    private function getEditableSubmissionId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            DELETE_SUBMISSION_FORM,
+            '',
+            '',
+            '',
+            array(),
+            array(),
+            1,
+            100,
+            'ASC'
+        );
+
+        return $submissions[0]->id;
     }
 }
