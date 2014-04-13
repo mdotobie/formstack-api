@@ -321,4 +321,24 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
             GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 100, 'fail'
         );
     }
+
+    /**
+     * @covers  ::getSubmissionDetails
+     */
+    public function testGetSubmissionDetailsIdeal() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submission = $wrapper->getSubmissionDetails(SUBMISSION_DETAILS_ID);
+        $this->assertEquals($submission->form, SUBMISSION_DETAILS_FORM_ID);
+    }
+
+    /**
+     * @covers                      ::getSubmissionDetails
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Submission ID must be numeric
+     */
+    public function testGetSubmissionDetailsNonNumericId() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submission = $wrapper->getSubmissionDetails(SUBMISSION_DETAILS_ID . 'FAIL');
+    }
 }
