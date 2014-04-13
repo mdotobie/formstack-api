@@ -249,6 +249,84 @@ class FormstackApi {
     }
 
     /**
+     * Update the specified submission
+     *
+     * @link    https://www.formstack.com/developers/api/resources/submission#submission/:id_PUT
+     *
+     * @param   int     $submissionId   The Submission to update
+     * @param   array   $fieldIds       An array of all field IDs to update values of
+     * @param   array   $fieldValues    An array of all values associated with IDs in $fieldIds
+     * @param   string  $timestamp      The time that should be recorded for the submission (YYYY-MM-DD HH:MM:SS)
+     * @param   string  $userAgent      The Browser user agent to be recorded for the submission
+     * @param   string  $ipAddress      The IP address that should be recorded for the submission
+     * @param   string  $paymentStatus  Status of payment integration (if applicable)
+     * @param   bool    $read           Flag indicating the submission being read or unread
+     *
+     * @throws  Exception               If submission ID is not numeric
+     * @throws  Exception               If an invalid Date/Time string is used for timestamp
+     * @throws  Exception               If there's differing numbers of FieldIds and FieldValues
+     * @throws  Exception               If any Field ID provided is non-numeric
+     *
+     */
+    public function editSubmissionData($submissionId, $fieldIds = array(),
+        $fieldValues = array(), $timestamp = '', $userAgent = '', $ipAddress = '',
+        $paymentStatus = '', $read = false) {
+
+        if (!is_numeric($submissionId)) {
+            throw new Exception('Submission ID must be numeric');
+        }
+
+        if (!empty($timestamp) && strtotime($timestamp) === false) {
+            throw new Exception('You must use a valid Date/Time string formatted '
+                . 'in YYYY-MM-DD HH:MM:SS'
+            );
+        }
+
+        $arguments = array(
+            'timestamp'         =>  $timestamp,
+            'user_agent'        =>  $userAgent,
+            'remote_addr'       =>  $ipAddress,
+            'payment_status'    =>  $paymentStatus,
+            'read'              =>  $read ? 1 : 0,
+        );
+
+        $argumentCount = count($arguments);
+
+        // Remove empty arguments to avoid overwriting existing data
+        for ($i = 0; $i < $argumentCount; $i++) {
+            if (empty($arguments[$i])) {
+                unset($arguments[$i]);
+            }
+        }
+
+        if (!empty($fieldIds)) {
+            $fieldIdCount = count($fieldIds);
+
+            if ($fieldIdCount !== count($fieldValues)) {
+                throw new Exception('There must be a one-to-one relationship between '
+                    . 'Field IDs and their values'
+                );
+            }
+
+            for ($i = 0; $i < $fieldIdCount; $i++) {
+                if (!is_numeric($fieldIds[$i])) {
+                    throw new Exception('Field IDs must be numeric');
+                }
+
+                $arguments['field_' . $fieldIds[$i]] = $fieldValues[$i];
+            }
+        }
+
+        $responseJson = $this->request(
+            'submission/' . $submissionId . '.json',
+            'PUT',
+            $arguments
+        );
+
+        return json_decode($responseJson);
+    }
+
+    /**
      * Helper method to make all requests to Formstack API
      *
      * @param   string      $endpoint   The endpoint to make requests to
