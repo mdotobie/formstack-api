@@ -13,6 +13,10 @@ require_once dirname(__FILE__) . '/../FormstackApi.php';
  * NOTE: This Test Code makes numerous API Calls to the Formstack API when run.
  * It's inadvisable to use this test code with Access Token(s) utilized in
  * production, as the Formstack API is rate limited to 14,400 requests a day.
+ *
+ * NOTE: Some of these API requests are destructive. Ensure that the constants
+ * defined in your own config.php file are for Submissions/Forms/etc. that you
+ * are OK with losing.
  */
 
 /**
