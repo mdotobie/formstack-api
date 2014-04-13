@@ -122,4 +122,169 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($response->error, 'A valid form id was not supplied');
 
     }
+
+    /**
+     * @covers  ::getSubmissions
+     */
+    public function testGetSubmissionsDefaultIdeal() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $form = $wrapper->getFormDetails(GET_SUBMISSIONS_FORM);
+        $submissionCount = $form->submissions > 25 ? 25 : $form->submissions;
+
+        $submissions = $wrapper->getSubmissions(GET_SUBMISSIONS_FORM);
+        $this->assertEquals(count($submissions), $submissionCount);
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Invalid value for minTime parameter
+     */
+    public function testGetSubmissionsBadMinTime() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', 'FAIL'
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Invalid value for maxTime parameter
+     */
+    public function testGetSubmissionsBadMaxTime() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', 'FAIL'
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    You must have a one to one relationship
+     * between field ids and field values
+     */
+    public function testGetSubmissionsSearchMismatch() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array(
+            1,
+            2,
+            3,
+        );
+        $fieldValues = array(
+            'test-1',
+            'test-2',
+        );
+
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', $fieldIds, $fieldValues
+        );
+
+        $fieldIds = array(
+            1,
+            2,
+        );
+        $fieldValues = array(
+            'test-1',
+            'test-2',
+            'test-3',
+        );
+
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', $fieldIds, $fieldValues
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    Field IDs must be numeric only
+     */
+    public function testGetSubmissionsNonNumericFieldIds() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = array(
+            1,
+            'fail',
+        );
+        $fieldValues = array(
+            'test-1',
+            'test-2',
+        );
+
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', $fieldIds, $fieldValues
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    The perPage value must be numeric
+     */
+    public function testGetSubmissionsNonNumericPerPage() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 'fail'
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    You can only retrieve a minimum of 1 and
+     * maximum of 100 submissions per request
+     */
+    public function testGetSubmissionsZeroPerPage() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 0
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    You can only retrieve a minimum of 1 and
+     * maximum of 100 submissions per request
+     */
+    public function testGetSubmissionsAboveOneHundredPerPage() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 101
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    The pageNumber value must be numeric
+     */
+    public function testGetSubmissionsNonNumericPageNumber() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 'fail'
+        );
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     *
+     * @expectedException           Exception
+     * @expectedExceptionMessage    The sort parameter must be ASC or DESC
+     */
+    public function testGetSubmissionsInvalidSort() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 100, 'fail'
+        );
+    }
 }
