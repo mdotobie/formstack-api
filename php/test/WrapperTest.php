@@ -341,4 +341,34 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
         $wrapper = new FormstackApi(ACCESS_TOKEN);
         $submission = $wrapper->getSubmissionDetails(SUBMISSION_DETAILS_ID . 'FAIL');
     }
+
+    /**
+     * @covers  ::editSubmissionData
+     */
+    public function testEditSubmissionDataIdeal() {
+        $wrapper = new FormstackAPI(ACCESS_TOKEN);
+        $value = 'woop' . time();
+        $arrayValue = array(
+            'first' =>  'woop' . time() . '-first',
+            'last'  =>  'woop' . time() . '-last',
+        );
+        $response = $wrapper->editSubmissionData(
+            EDIT_SUBMISSION_ID,
+            array(EDIT_SUBMISSION_FIELD_ID, EDIT_SUBMISSION_ARRAY_FIELD_ID),
+            array($value, $arrayValue)
+        );
+
+        $this->assertEquals($response->success, 1);
+        $this->assertEquals($response->id, EDIT_SUBMISSION_ID);
+
+        $submission = $wrapper->getSubmissionDetails(EDIT_SUBMISSION_ID);
+
+        foreach ($submission->data as $submissionData) {
+            if ($submissionData->field === EDIT_SUBMISSION_FIELD_ID) {
+                $this->assertEquals($submissionData->value === $value);
+            } elseif ($submissionData->field === EDIT_SUBMISSION_ARRAY_FIELD_ID) {
+                $this->assertEquals($submissionData->value === $arrayValue);
+            }
+        }
+    }
 }
