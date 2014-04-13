@@ -356,11 +356,11 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
      * @covers  ::editSubmissionData
      */
     public function testEditSubmissionDataIdeal() {
-        $wrapper = new FormstackAPI(ACCESS_TOKEN);
-        $value = 'woop' . time();
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $value = 'test' . time();
         $arrayValue = array(
-            'first' =>  'woop' . time() . '-first',
-            'last'  =>  'woop' . time() . '-last',
+            'first' =>  'test' . time() . '-first',
+            'last'  =>  'test' . time() . '-last',
         );
         $response = $wrapper->editSubmissionData(
             EDIT_SUBMISSION_ID,
