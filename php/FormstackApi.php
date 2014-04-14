@@ -195,8 +195,8 @@ class FormstackApi {
                 throw new Exception('Field IDs must be numeric');
             }
 
-            $arguments['search_field' . $i] = $searchFieldIds[$i];
-            $arguments['search_value' . $i] = $searchFieldValues[$i];
+            $arguments['search_field_' . $i] = $searchFieldIds[$i];
+            $arguments['search_value_' . $i] = $searchFieldValues[$i];
         }
 
         $responseJson = $this->request($endpoint, 'GET', $arguments);
