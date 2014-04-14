@@ -163,6 +163,23 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers  ::getSubmissions
+     */
+    public function testGetSubmissionsSearchIdeal() {
+        global $searchFields, $searchValues;
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $form = $wrapper->getFormDetails(GET_SUBMISSIONS_FORM);
+        $submissionCount = $form->submissions > 25 ? 25 : $form->submissions;
+
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', $searchFields, $searchValues
+        );
+
+        $this->assertLessThan($submissionCount, count($submissions));
+        $this->assertGreaterThan(0, count($submissions));
+    }
+
+    /**
      * @covers                      ::getSubmissions
      *
      * @expectedException           Exception
