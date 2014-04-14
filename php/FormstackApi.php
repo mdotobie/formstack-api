@@ -131,6 +131,7 @@ class FormstackApi {
      * @throws  Exception                   If perPage is not nmueric
      * @throws  Exception                   If perPage is out of bounds (less than 1 or greater than 100)
      * @throws  Exception                   If sort is not 'ASC' or 'DESC'
+     * @throws  Exception                   If Field ID is not numeric
      *
      * @return  array   $submissions        All retrieved submissions for the given Form
      */
@@ -187,7 +188,16 @@ class FormstackApi {
         );
 
         $arguments = $this->cleanArguments($arguments);
-        $arguments = $this->addFieldData($arguments, $searchFieldIds, $searchFieldValues);
+        $fieldIdCount = count($searchFieldIds);
+
+        for ($i = 0; $i < $fieldIdCount; $i++) {
+            if (!is_numeric($searchFieldIds[$i])) {
+                throw new Exception('Field IDs must be numeric');
+            }
+
+            $arguments['search_field' . $i] = $searchFieldIds[$i];
+            $arguments['search_value' . $i] = $searchFieldValues[$i];
+        }
 
         $responseJson = $this->request($endpoint, 'GET', $arguments);
         $response = json_decode($responseJson);
