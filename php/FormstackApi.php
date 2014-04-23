@@ -29,6 +29,73 @@ class FormstackApi {
     private $apiUrl = 'https://www.formstack.com/api/v2/';
     private $accessToken = '';
     public  $finalized = true;
+    public  $fieldTypes = array(
+        'text',
+        'textarea',
+        'name',
+        'address',
+        'email',
+        'phone',
+        'creditcard',
+        'datetime',
+        'file',
+        'number',
+        'select',
+        'radio',
+        'checkbox',
+        'matrix',
+        'richtext',
+        'embed',
+        'product',
+        'section',
+    );
+    public  $fieldAttributes = array(
+        'text'      =>  array(
+            'size'          =>  array(
+                'type'      =>  'number',
+                'default'   =>  50,
+            ),
+            'maxlength'     =>  array(
+                'type'      =>  'number',
+                'default'   =>  0,
+            ),
+            'placeholder'   =>  array(
+                'type'      =>  'string',
+                'default'   =>  '',
+            ),
+        ),
+        'textarea'  =>  array(
+            'rows'      =>  array(
+                'type'      =>  'number',
+                'default'   =>  10,
+            ),
+            'cols'      =>  array(
+                'type'      =>  'number',
+                'default'   =>  50,
+            ),
+            'maxlength' =>  array(
+                'type'      =>  'number',
+                'default'   =>  0,
+            ),
+            'placeholder'   =>  array(
+                'type'      =>  'string',
+            ),
+        ),
+        'name'      =>  array(
+            'size'          =>  array(
+                'type'      =>  'number',
+                'default'   =>  20,
+            ),
+            'show_prefix'   =>  array(
+                'type'      =>  'boolean',
+                'default'   =>  0,
+            ),
+            'show_middle'   =>  array(
+                'type'      =>  'boolean',
+                'default'   =>  0,
+            ),
+        ),
+    );
 
     public function __construct($accessToken) {
         $this->accessToken = $accessToken;
@@ -366,6 +433,17 @@ class FormstackApi {
         $response = json_decode($responseJson);
 
         return $response;
+    }
+
+    public function createField($formId, $fieldType = '', $label = '', $description = '',
+        $useCallout = 0, $fieldSpecificAttributes = array(), $defaultValue = '',
+        $required = 0, $readOnly = 0, $hidden = 0, $unique = 0, $columnSpan = null,
+        $sort = null) {
+
+        if (!is_numeric($formId)) {
+            throw new Exception('Form ID must be numeric');
+        }
+
     }
 
     /**
