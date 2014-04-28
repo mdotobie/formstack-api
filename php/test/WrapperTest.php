@@ -633,6 +633,32 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers  ::createField
+     */
+    public function testCreateFieldIdealSimplest() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldName = 'Test Field ' . time();
+        $field = $wrapper->createField(CREATE_FIELD_FORM_ID, 'text', $fieldName);
+        $this->assertEquals($field->label, $fieldName);
+        $this->assertEquals($field->type, 'text');
+    }
+
+    /**
+     * @covers  ::createField
+     */
+    public function testCreateFieldIdealEmbedCode() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $attributes = array(
+            'text'  =>  '<script type="text/javascript">alert(\'Woop there it is \');</script>',
+        );
+        $field = $wrapper->createField(CREATE_FIELD_FORM_ID, 'embed', '', false,
+            '', false, $attributes
+        );
+
+        $this->assertEquals($field->type, 'embed');
+    }
+
+    /**
      * Utility method to get a editable submission id
      *
      * @return  int $submissions[0]->id The id of the first submission found

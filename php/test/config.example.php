@@ -16,6 +16,7 @@
     define('EDIT_SUBMISSION_ARRAY_FIELD_ID', 18912345);
     define('DELETE_SUBMISSION_FORM', 1912345);
     define('SUBMIT_FORM_ID', DELETE_SUBMISSION_FORM);
+    define('CREATE_FIELD_FORM_ID', 1923456);
     $submitFormFieldIds = array(
         17891234,
         18912345,
