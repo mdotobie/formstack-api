@@ -55,7 +55,7 @@ class FormstackApi {
     }
 
     /**
-     * Get a list of the forms in your account
+     * Get a list of the Forms in your account
      *
      * @link    https://www.formstack.com/developers/api/resources/form#form_GET
      *
@@ -83,11 +83,11 @@ class FormstackApi {
     }
 
     /**
-     * Get the detailed information of a specific form
+     * Get the detailed information of a specific Form
      *
      * @link    https://www.formstack.com/developers/api/resources/form#form/:id_GET
      *
-     * @param   int     $formId     The ID of the form to look up
+     * @param   int     $formId     The ID of the Form to look up
      *
      * @throws  Exception           If the Form ID is not numeric
      *
@@ -105,11 +105,11 @@ class FormstackApi {
     }
 
     /**
-     * Create a copy of a form in your account.
+     * Create a copy of a Form in your account.
      *
      * @link    https://www.formstack.com/developers/api/resources/form#form/:id/copy_POST
      *
-     * @param   int     $formId     The ID of the form to copy
+     * @param   int     $formId     The ID of the Form to copy
      *
      * @throws  Exception           If the Form ID is not numeric
      *
@@ -127,20 +127,20 @@ class FormstackApi {
     }
 
     /**
-     * Get all submissions for a specific form
+     * Get all Submissions for a specific Form
      *
      * @link    https://www.formstack.com/developers/api/resources/submission#form/:id/submission_GET
      *
-     * @param   int     $formId             The ID of the form to retrieve submissions for
+     * @param   int     $formId             The ID of the Form to retrieve Submissions for
      * @param   string  $encryptionPassword The encryption password (if applicable)
-     * @param   string  $minTime            Date/Time string for start time in EST to group submissions
-     * @param   string  $maxTime            Date/Time string for end time in EST to group submissions
+     * @param   string  $minTime            Date/Time string for start time in EST to group Submissions
+     * @param   string  $maxTime            Date/Time string for end time in EST to group Submissions
      * @param   array   $searchFieldIds     Array of Field IDs to base searching around
      * @param   array   $searchFieldValues  Array of values related to IDs in searchFieldIds
-     * @param   int     $pageNumber         Page of submissions to collect from
-     * @param   int     $perPage            Number of submissions to retrieve per request
+     * @param   int     $pageNumber         Page of Submissions to collect from
+     * @param   int     $perPage            Number of Submissions to retrieve per request
      * @param   string  $sort               Sort direction ('DESC or 'ASC')
-     * @param   bool    $data               Whether to include submission data in request
+     * @param   bool    $data               Whether to include Submission data in request
      * @param   bool    $expandData         Whether to include extra data formatting for included data
      *
      * @throws  Exception                   If provided Form ID is not numeric
@@ -153,7 +153,7 @@ class FormstackApi {
      * @throws  Exception                   If sort is not 'ASC' or 'DESC'
      * @throws  Exception                   If Field ID is not numeric
      *
-     * @return  array   $submissions        All retrieved submissions for the given Form
+     * @return  array   $submissions        All retrieved Submissions for the given Form
      */
     public function getSubmissions($formId, $encryptionPassword = '',
         $minTime = '', $maxTime = '', $searchFieldIds = array(),
@@ -174,7 +174,7 @@ class FormstackApi {
 
         if (count($searchFieldIds) !== count($searchFieldValues)) {
             throw new Exception('You must have a one to one relationship between '
-                . 'field ids and field values'
+                . 'Field ids and Field values'
             );
         }
 
@@ -186,7 +186,7 @@ class FormstackApi {
             throw new Exception('The perPage value must be numeric');
         } elseif ($perPage > 100 || $perPage <= 0) {
             throw new Exception('You can only retrieve a minimum of 1 and '
-                . 'maximum of 100 submissions per request'
+                . 'maximum of 100 Submissions per request'
             );
         }
 
@@ -230,14 +230,14 @@ class FormstackApi {
      *
      * @link    https://www.formstack.com/developers/api/resources/submission#form/:id/submission_POST
      *
-     * @param   int     $formId         The ID of the form to submit to
-     * @param   array   $fieldIds       Array of field ids to submit data for
-     * @param   array   $fieldValues    Array of field values to submit data associated with $fieldIds
+     * @param   int     $formId         The ID of the Form to submit to
+     * @param   array   $fieldIds       Array of Field ids to submit data for
+     * @param   array   $fieldValues    Array of Field values to submit data associated with $fieldIds
      * @param   string  $timestamp      String representation of YYYY-MM-DD HH:MM:SS time that should be recorded
      * @param   string  $userAgent      Browser user agent value that should be recorded
      * @param   string  $ipAddress      IP Address that should be recorded
      * @param   string  $paymentStatus  Status of payment integration(s) (if applicable)
-     * @param   bool    $read           Flag (true or false) indicating whether the submission was read
+     * @param   bool    $read           Flag (true or false) indicating whether the Submission was read
      *
      * @throws  Exception               If a non-numeric Form ID was provided
      * @throws  Exception               If an invalid Date/Time string was provided for $timestamp
@@ -279,12 +279,12 @@ class FormstackApi {
     }
 
     /**
-     * Get the details of a specific submission
+     * Get the details of a specific Submission
      *
      * @link    https://www.formstack.com/developers/api/resources/submission#submission/:id_GET
      *
-     * @param   int     $submissionId       The ID of the submission to get data for
-     * @param   string  $encryptionPassword The encryption password on the form (if applicable)
+     * @param   int     $submissionId       The ID of the Submission to get data for
+     * @param   string  $encryptionPassword The encryption password on the Form (if applicable)
      *
      * @throws  Exception                   If the Submission ID is not numeric
      *
@@ -313,20 +313,20 @@ class FormstackApi {
     }
 
     /**
-     * Update the specified submission
+     * Update the specified Submission
      *
      * @link    https://www.formstack.com/developers/api/resources/submission#submission/:id_PUT
      *
      * @param   int     $submissionId   The Submission to update
-     * @param   array   $fieldIds       An array of all field IDs to update values of
+     * @param   array   $fieldIds       An array of all Field IDs to update values of
      * @param   array   $fieldValues    An array of all values associated with IDs in $fieldIds
-     * @param   string  $timestamp      The time that should be recorded for the submission (YYYY-MM-DD HH:MM:SS)
-     * @param   string  $userAgent      The Browser user agent to be recorded for the submission
-     * @param   string  $ipAddress      The IP address that should be recorded for the submission
+     * @param   string  $timestamp      The time that should be recorded for the Submission (YYYY-MM-DD HH:MM:SS)
+     * @param   string  $userAgent      The Browser user agent to be recorded for the Submission
+     * @param   string  $ipAddress      The IP address that should be recorded for the Submission
      * @param   string  $paymentStatus  Status of payment integration (if applicable)
-     * @param   bool    $read           Flag indicating the submission being read or unread
+     * @param   bool    $read           Flag indicating the Submission being read or unread
      *
-     * @throws  Exception               If submission ID is not numeric
+     * @throws  Exception               If Submission ID is not numeric
      * @throws  Exception               If an invalid Date/Time string is used for timestamp
      *
      * @return  object  $response       \stdClass representation of API response
@@ -367,7 +367,7 @@ class FormstackApi {
     }
 
     /**
-     * Delete the specified submission
+     * Delete the specified Submission
      *
      * @link    https://www.formstack.com/developers/api/resources/submission#submission/:id_DELETE
      *
@@ -563,12 +563,12 @@ class FormstackApi {
     /**
      * Utility method to insert field data into the arguments array properly
      *
-     * @param   array   $arguments      The arguments to insert field data into
-     * @param   array   $fieldIds       Array of field ids to have data inserted for
-     * @param   array   $fieldValues    Array of field values associated with field ids
+     * @param   array   $arguments      The arguments to insert Field data into
+     * @param   array   $fieldIds       Array of Field ids to have data inserted for
+     * @param   array   $fieldValues    Array of Field values associated with Field ids
      *
      * @throws  Exception               If there's a size mismatch between IDs and Values
-     * @throws  Exception               If non-numeric field ids were provided
+     * @throws  Exception               If non-numeric Field ids were provided
      *
      * @return  array   $arguments      The arguments array with values now properly inserted
      */
