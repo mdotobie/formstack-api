@@ -388,9 +388,10 @@ class FormstackApi {
         return $response;
     }
 
-    public function createField($formId, $fieldType = '', $label = '', $description = '',
-        $useCallout = 0, $fieldSpecificAttributes = array(), $defaultValue = '',
-        $required = 0, $readOnly = 0, $hidden = 0, $unique = 0, $columnSpan = null,
+    public function createField($formId, $fieldType = '', $label = '',
+        $hideLabel = false, $description = '', $useCallout = false,
+        $fieldSpecificAttributes = array(), $defaultValue = '', $required = false,
+        $readOnly = false, $hidden = false, $unique = false, $columnSpan = null,
         $sort = null) {
 
         if (!is_numeric($formId)) {
