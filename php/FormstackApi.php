@@ -49,53 +49,6 @@ class FormstackApi {
         'product',
         'section',
     );
-    public  $fieldAttributes = array(
-        'text'      =>  array(
-            'size'          =>  array(
-                'type'      =>  'number',
-                'default'   =>  50,
-            ),
-            'maxlength'     =>  array(
-                'type'      =>  'number',
-                'default'   =>  0,
-            ),
-            'placeholder'   =>  array(
-                'type'      =>  'string',
-                'default'   =>  '',
-            ),
-        ),
-        'textarea'  =>  array(
-            'rows'      =>  array(
-                'type'      =>  'number',
-                'default'   =>  10,
-            ),
-            'cols'      =>  array(
-                'type'      =>  'number',
-                'default'   =>  50,
-            ),
-            'maxlength' =>  array(
-                'type'      =>  'number',
-                'default'   =>  0,
-            ),
-            'placeholder'   =>  array(
-                'type'      =>  'string',
-            ),
-        ),
-        'name'      =>  array(
-            'size'          =>  array(
-                'type'      =>  'number',
-                'default'   =>  20,
-            ),
-            'show_prefix'   =>  array(
-                'type'      =>  'boolean',
-                'default'   =>  0,
-            ),
-            'show_middle'   =>  array(
-                'type'      =>  'boolean',
-                'default'   =>  0,
-            ),
-        ),
-    );
 
     public function __construct($accessToken) {
         $this->accessToken = $accessToken;
