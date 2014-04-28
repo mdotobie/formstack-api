@@ -397,6 +397,65 @@ class FormstackApi {
             throw new Exception('Form ID must be numeric');
         }
 
+        if (!in_array($fieldType, $this->fieldTypes)) {
+            throw new Exception('Provided Field Type is not in the list of known field types');
+        }
+
+        $arguments = array();
+
+        if (!empty($label)) {
+            $arguments['label'] = $label;
+        }
+
+        if ($hideLabel) {
+            $arguments['hide_label'] = 1;
+        }
+
+        if (!empty($description)) {
+            $arguments['description'] = $description;
+        }
+
+        if ($useCallout) {
+            $arguments['description_callout'] = 1;
+        }
+
+        foreach ($fieldSpecificAttributes as $key => $value) {
+            $arguments[$key] = $value;
+        }
+
+        if (!empty($defaultValue)) {
+            $arguments['default_value'] = $defaultValue;
+        }
+
+        if ($required) {
+            $arguments['required'] = 1;
+        }
+
+        if ($readOnly) {
+            $arguments['readonly'] = 1;
+        }
+
+        if ($hidden) {
+            $arguments['hidden'] = 1;
+        }
+
+        if ($unique) {
+            $arguments['unique'] = 1;
+        }
+
+        if (!is_null($columnSpan)) {
+            $arguments['colspan'] = $columnSpan;
+        }
+
+        if (!is_null($sort)) {
+            $arguments['sort'] = $sort;
+        }
+
+        $responseJson = $this->request('form/' . $formId . '/field', 'POST', $arguments);
+        $response = json_decode($responseJson);
+
+        return $response;
+
     }
 
     /**
