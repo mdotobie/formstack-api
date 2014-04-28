@@ -399,7 +399,7 @@ class FormstackApi {
         }
 
         if (!in_array($fieldType, $this->fieldTypes)) {
-            throw new Exception('Provided Field Type is not in the list of known field types');
+            throw new Exception('Provided Field Type is not in the list of known Field types');
         }
 
         $arguments = array();
