@@ -388,6 +388,38 @@ class FormstackApi {
         return $response;
     }
 
+    /**
+     * Create a Field for the specified Form
+     *
+     * @link    https://www.formstack.com/developers/api/resources/field#form/:id/field_POST
+     *
+     * @param   int         $formId                     The ID of the Form to create
+     *                                                      a new Field for
+     * @param   string      $fieldType                  The type of Field to create
+     * @param   string      $label                      The Field's label
+     * @param   bool        $hideLabel                  Flag to show or hide the label
+     * @param   string      $description                The Field's description text
+     *                                                      (shown below the Field)
+     * @param   bool        $useCallout                 Flag to show the description
+     *                                                      text in a callout box
+     * @param   array       $fieldSpecificAttributes    The Field's Attributes
+     * @param   string      $defaultValue               Predefined default value
+     * @param   array       $options                    Array of option labels
+     *                                                      (select, radio, checkbox only)
+     * @param   array       $optionsValues              Array of option values
+     *                                                      (select, radio, checkbox only)
+     * @param   bool        $required                   Flag whether Field is required
+     * @param   bool        $readOnly                   Flag whether Field value can change
+     * @param   bool        $hidden                     Flag whether Field is hidden on Form
+     * @param   bool        $unique                     Flag whether Field requires unique values
+     * @param   int         $columnSpan                 How many columns the Field should span
+     * @param   int         $sort                       Numeric position in Form (0 is first)
+     *
+     * @throws  Exception                               If the Form ID is not numeric
+     * @throws  Exception                               If the provided Field Type is invalid
+     *
+     * @return  stdClass    $response                   The created Field
+     */
     public function createField($formId, $fieldType = '', $label = '',
         $hideLabel = false, $description = '', $useCallout = false,
         $fieldSpecificAttributes = array(), $defaultValue = '', $options = array(),
