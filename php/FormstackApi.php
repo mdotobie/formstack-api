@@ -390,9 +390,9 @@ class FormstackApi {
 
     public function createField($formId, $fieldType = '', $label = '',
         $hideLabel = false, $description = '', $useCallout = false,
-        $fieldSpecificAttributes = array(), $defaultValue = '', $required = false,
-        $readOnly = false, $hidden = false, $unique = false, $columnSpan = null,
-        $sort = null) {
+        $fieldSpecificAttributes = array(), $defaultValue = '', $options = array(),
+        $optionsValues = array(), $required = false, $readOnly = false,
+        $hidden = false, $unique = false, $columnSpan = null, $sort = null) {
 
         if (!is_numeric($formId)) {
             throw new Exception('Form ID must be numeric');
@@ -403,6 +403,8 @@ class FormstackApi {
         }
 
         $arguments = array();
+
+        $arguments['field_type'] = $fieldType;
 
         if (!empty($label)) {
             $arguments['label'] = $label;
@@ -420,12 +422,20 @@ class FormstackApi {
             $arguments['description_callout'] = 1;
         }
 
-        foreach ($fieldSpecificAttributes as $key => $value) {
-            $arguments[$key] = $value;
+        if (!empty($fieldSpecificAttributes)) {
+            $arguments['attributes'] = $fieldSpecificAttributes;
         }
 
         if (!empty($defaultValue)) {
             $arguments['default_value'] = $defaultValue;
+        }
+
+        if (!empty($options)) {
+            $arguments['options'] = $options;
+        }
+
+        if (!empty($optionsValues)) {
+            $arguments['options_values'] = $optionsValues;
         }
 
         if ($required) {
