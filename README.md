@@ -2,22 +2,4 @@
 
 ------------
 
-## Formstack API Version 1
-
-
-### Repository Containing Multiple Formstack API Wrappers
-
-* .Net
-* PHP
-* Python
-* Webhook Examples
-
-### Requirements
-
-* A valid [Formstack.com](http://www.formstack.com) account
-* A valid Formstack API Key [You can create one here.](https://www.formstack.com/admin/apiKey/add)
-* Willingness to hack and test on your own. Formstack will try to maintain its libraries as best as it can but ultimately the responsibility of your code is on you, the developer.
-
-### Documentation
-
-* [Read the API documentation](https://www.formstack.com/developers/index.php)
+If you are interested in reading about version 1 of the API, you can do so [here](http://web.archive.org/web/20120604094151/http://developers.formstack.com/)
