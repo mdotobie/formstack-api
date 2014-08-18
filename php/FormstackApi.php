@@ -200,7 +200,7 @@ class FormstackApi {
             'encryption_password'   =>  $encryptionPassword,
             'min_time'              =>  $minTime,
             'max_time'              =>  $maxTime,
-            'page_number'           =>  $pageNumber,
+            'page'                  =>  $pageNumber,
             'per_page'              =>  $perPage,
             'sort'                  =>  $sort,
             'data'                  =>  $data,
