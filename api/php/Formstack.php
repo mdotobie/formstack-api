@@ -121,7 +121,7 @@ class Formstack {
     public function edit($id, $args = array()) {
 
         $args['id'] = $id;
-        return self::request($this->api_key, 'submit', $args);
+        return self::request($this->api_key, 'edit', $args);
     }
 
     /**
