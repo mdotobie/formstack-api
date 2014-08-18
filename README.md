@@ -1,19 +1,23 @@
-Formstack APIs
-=============
+## Note Version 1 of the API has been deprecated. Please update your libraries to use version 2 of our API [here](https://github.com/formstack/formstack-api).
 
-Repository Containing Multiple Formstack API Wrappers
+------------
 
-Requirements to Use Any Formstack APIs in this Repository
-=========================================================
+## Formstack API Version 1
+
+
+### Repository Containing Multiple Formstack API Wrappers
+
+* .Net
+* PHP
+* Python
+* Webhook Examples
+
+### Requirements
+
 * A valid [Formstack.com](http://www.formstack.com) account
-* A valid Formstack API V2 Application. [You can create one here.](https://www.formstack.com/developers/applications)
+* A valid Formstack API Key [You can create one here.](https://www.formstack.com/admin/apiKey/add)
 * Willingness to hack and test on your own. Formstack will try to maintain its libraries as best as it can but ultimately the responsibility of your code is on you, the developer.
 
-FAQs
-====
-* **Where's the wrapper for \<INSERT LANGUAGE HERE\>?** - Currently our goal is
- to make new wrappers for all of the wrappers that currently exist for the V1 API.
- Have a pet language you'd love to see a wrapper for? We're willing to take pull
- requests for changes to existing wrappers and/or additional wrappers.
-* **Is there a rate limit?** - Yes. Formstack currently applies a rate limit of
- 14,400 requests per Access Token per day.
+### Documentation
+
+* [Read the API documentation](https://www.formstack.com/developers/index.php)
