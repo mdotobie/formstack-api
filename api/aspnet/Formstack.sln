@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formstack", "Formstack\Formstack.csproj", "{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormstackTest", "FormstackTest\FormstackTest.csproj", "{E50EA640-1901-47BB-9921-CAA00833094A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DB0C6F73-7A7A-41CB-992F-513E8209BCBA}.Release|x86.ActiveCfg = Release|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E50EA640-1901-47BB-9921-CAA00833094A}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Formstack\Formstack.csproj
+	EndGlobalSection
+EndGlobal
