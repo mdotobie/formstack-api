@@ -342,6 +342,21 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers                      ::getSubmissions
+     */
+    public function testGetSubmissionsPageNumberWorking() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissionsPage1 = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 1
+        );
+        $submissionsPage2 = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 2, 1
+        );
+
+        $this->assertNotEquals($submissionsPage1, $submissionsPage2);
+    }
+
+    /**
+     * @covers                      ::getSubmissions
      *
      * @expectedException           Exception
      * @expectedExceptionMessage    The sort parameter must be ASC or DESC
