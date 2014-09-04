@@ -369,6 +369,32 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers                      ::getSubmissions
+     */
+    public function testGetSubmissionsNoData() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(GET_SUBMISSIONS_FORM);
+
+        $submission = $submissions[0];
+
+        $this->assertFalse(isset($submission->data));
+    }
+
+    /**
+     * @covers                      ::getSubmissions
+     */
+    public function testGetSubmissionsWithData() {
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $submissions = $wrapper->getSubmissions(
+            GET_SUBMISSIONS_FORM, '', '', '', array(), array(), 1, 100, 'DESC', true
+        );
+
+        $submission = $submissions[0];
+
+        $this->assertTrue(isset($submission->data));
+    }
+
+    /**
      * @covers  ::submitForm
      */
     public function testSubmitFormIdeal() {
