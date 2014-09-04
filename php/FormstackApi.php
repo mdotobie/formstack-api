@@ -207,6 +207,14 @@ class FormstackApi {
             'expand_data'           =>  $expandData,
         );
 
+        if (!$arguments['data']) {
+            unset($arguments['data']);
+        }
+
+        if (!$arguments['expand_data']) {
+            unset($arguments['expand_data']);
+        }
+
         $arguments = $this->cleanArguments($arguments);
         $fieldIdCount = count($searchFieldIds);
 
