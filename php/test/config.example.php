@@ -37,6 +37,15 @@
     $searchValues = array(
         '5.00',
     );
+    $uploadFieldIds = array(
+        0000000000,
+    );
+    $uploadFieldValues = array(
+        array(
+            file_get_contents(DIRNAME(__FILE__) . '/fs-logo.png'),
+            'fs-logo.png',
+        ),
+    );
 
     // We use time-based code in here, so you may need to run the code below if
     // a timezone is not defined elsewhere in your environment
