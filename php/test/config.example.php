@@ -31,6 +31,12 @@
         ),
         'this is a long answer field',
     );
+    $searchFields = array(
+        0000000000,
+    );
+    $searchValues = array(
+        '5.00',
+    );
 
     // We use time-based code in here, so you may need to run the code below if
     // a timezone is not defined elsewhere in your environment
