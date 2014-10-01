@@ -17,7 +17,7 @@
     define('DELETE_SUBMISSION_FORM', 0000000000);
     define('SUBMIT_FORM_ID', DELETE_SUBMISSION_FORM);
     define('CREATE_FIELD_FORM_ID', 0000000000);
-    define('UPLOAD_FORM_TEST', 00000000000);
+    define('UPLOAD_FORM_ID', 00000000000);
     $submitFormFieldIds = array(
         0000000000,
         0000000000,
