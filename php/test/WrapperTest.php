@@ -519,6 +519,39 @@ class WrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers                      ::submitForm
+     */
+    public function testSubmitFormUploadsIdeal() {
+        global $uploadFieldIds, $uploadFieldValues;
+
+        $wrapper = new FormstackApi(ACCESS_TOKEN);
+        $fieldIds = $uploadFieldIds;
+        $fieldValues = $uploadFieldValues;
+
+        $fieldValueCount = count($fieldValues);
+
+        for ($i = 0; $i < $fieldValueCount; $i++) {
+            $base64 = base64_encode($fieldValues[$i][0]);
+            $fieldValues[$i] = $fieldValues[$i][1] . ';' . $base64;
+        }
+
+        $response = $wrapper->submitForm(
+            UPLOAD_FORM_ID,
+            $fieldIds,
+            $fieldValues
+        );
+
+        $this->assertFalse(empty($response->data));
+
+        foreach ($response->data as $submissionData) {
+            for ($i = 0; $i < $fieldValueCount; $i++) {
+                $this->assertEquals($submissionData->field, $fieldIds[$i]);
+                $this->assertFalse(empty($submissionData->value));
+            }
+        }
+    }
+
+    /**
      * @covers  ::getSubmissionDetails
      */
     public function testGetSubmissionDetailsIdeal() {
